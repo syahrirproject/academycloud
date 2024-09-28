@@ -20,7 +20,7 @@ jobs:
 
     - name: Deploy to VPS via SSH
       run: |
-        ssh -o StrictHostKeyChecking=no root@203.175.11.172 << 'EOF'
+        ssh -o StrictHostKeyChecking=no syahrir@203.175.11.172 << 'EOF'
           cd /var/www/testing/academycloud  # Ganti dengan direktori di server tempat kamu menyimpan file HTML
           git pull origin main
           sudo service nginx restart  # Restart Nginx jika menggunakan Nginx
