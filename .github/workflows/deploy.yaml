@@ -1,0 +1,28 @@
+name: Deploy HTML to VPS
+
+on:
+  push:
+    branches:
+      - main  # Menggunakan branch 'main' sebagai trigger
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Deploy to VPS via SSH
+      run: |
+        ssh -o StrictHostKeyChecking=no root@203.175.11.172 << 'EOF'
+          cd /var/www/testing/academycloud  # Ganti dengan direktori di server tempat kamu menyimpan file HTML
+          git pull origin main
+          sudo service nginx restart  # Restart Nginx jika menggunakan Nginx
+          exit
+        EOF
